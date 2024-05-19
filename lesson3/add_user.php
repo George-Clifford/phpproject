@@ -10,8 +10,6 @@ function addUser($username, $email, $role) {
     $email = $db_connect->real_escape_string($email);
     $role = $db_connect->real_escape_string($role);
 
-    
-
     $sql = "INSERT INTO users (username, email, role) VALUES ('$username', '$email', '$role')";
 
     if ($db_connect->query($sql) === TRUE) {

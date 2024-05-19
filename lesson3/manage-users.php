@@ -1,3 +1,8 @@
+<?php
+session_start();
+include 'database-connect.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +21,7 @@
             width: 80%;
             margin: 0 auto;
             padding-top: 20px;
+            text-align: center; /* Center the container */
         }
 
         .btn {
@@ -38,6 +44,9 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            width: 50%; /* Increase form size */
+            margin-left: auto; /* Center form container */
+            margin-right: auto; /* Center form container */
         }
 
         table {
@@ -66,7 +75,11 @@
 
 <body>
     <div class="container">
-        <button class="btn" onclick="toggleForm()">Add User</button>
+        <?php
+        if ($_SESSION['role'] === 'admin') {
+            echo '<button class="btn" onclick="toggleForm()">Add User</button>';
+        }
+        ?>
         <button class="btn" onclick="viewUsers()">View Users</button>
 
         <div id="form-container" class="form-container hidden">
@@ -86,16 +99,21 @@
 
         <div id="users-container" class="users-container hidden">
             <?php
-            session_start();
-            include 'database-connect.php';
+            $username = $_SESSION['username'];
+            $role = $_SESSION['role'];
 
-            $sql = "SELECT * FROM users";
+            if ($role === 'admin') {
+                $sql = "SELECT * FROM users";
+            } else {
+                $sql = "SELECT * FROM users WHERE username='$username'";
+            }
+
             $result = $db_connect->query($sql);
 
             if ($result->num_rows > 0) {
                 echo '<table>';
                 echo '<tr><th>Username</th><th>Email</th>';
-                if ($_SESSION['role'] == 'admin') {
+                if ($role === 'admin') {
                     echo '<th>Role</th><th colspan="2">Action</th>';
                 } else {
                     echo '<th>Action</th>';
@@ -106,11 +124,11 @@
                     echo '<tr>';
                     echo '<td>' . $row['username'] . '</td>';
                     echo '<td>' . $row['email'] . '</td>';
-                    if ($_SESSION['role'] == 'admin') {
+                    if ($role === 'admin') {
                         echo '<td>' . $row['role'] . '</td>';
                         echo '<td><a href="edit_user.php?id=' . $row['id'] . '">Edit</a></td>';
                         echo '<td><a href="delete_user.php?id=' . $row['id'] . '">Delete</a></td>';
-                    } else if ($_SESSION['username'] == $row['username']) {
+                    } else if ($username === $row['username']) {
                         echo '<td><a href="edit_user.php?id=' . $row['id'] . '">Edit</a></td>';
                     }
                     echo '</tr>';
