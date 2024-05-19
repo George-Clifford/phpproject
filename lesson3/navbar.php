@@ -1,6 +1,9 @@
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="inde.css">
 <!-- Navigation -->
 <nav>
+<div class="logo">
+            <a href="index.php">Logo</a>
+        </div>
         <ul>
             <li><a href="index.php">Home</a></li>
             <li><a href="about.php">About</a></li>
