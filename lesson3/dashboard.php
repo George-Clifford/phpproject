@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,10 +57,9 @@ session_start();
         <ul class="top-nav">
             <li><a href="dashboard.php?id=dashboard">Dashboard</a></li>
             <li><a href="dashboard.php?id=profile">Profile</a></li>
-            <li><a href="dashboard.php?id=users">Manage Users</a></li>
+            <li><a href="dashboard.php?id=users">Users</a></li>
             <li><a href="dashboard.php?id=posts">Posts</a></li>
-            <li><a href="dashboard.php?id=settings">Settings</a></li>
-            <li><a href="dashboard.php?id=logout">Logout</a></li>
+            <li><a href="logout.php">Logout</a></li>
         </ul>
     </nav>
 
@@ -78,7 +75,7 @@ session_start();
                         echo htmlspecialchars($_SESSION['username']); // Assuming username is stored in session
                         echo '</div>';
                     } else {
-                        echo "You are not logged in!";
+                        echo "You clicked dashboard";
                     }
                     break;
                 case 'profile':
